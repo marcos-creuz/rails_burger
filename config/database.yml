@@ -52,10 +52,10 @@ test:
 
 production:
   adapter:  postgresql
-  host:     localhost
+  host:     ec2-54-227-248-123.compute-1.amazonaws.com
   encoding: unicode
-  database: rails_burger_production
+  database: d4efmonehlam5
   pool:     5
-  username: rails_burger
-  password:
+  username: lubshnvilsrsdh
+  password: 1mH3sjiOvBfOMSkwH3CWzWYuPH
   template: template0
