@@ -9,8 +9,8 @@ gem 'jbuilder', '~> 2.0'
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
-  gem 'spring'
 end
+gem 'spring'
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'high_voltage'
