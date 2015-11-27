@@ -29,6 +29,7 @@ h6 {
 .topnav {
     font-size: 14px;
     background-color: #322828;
+    /*width: 100%;*/
 }
 
 .lead {
@@ -178,11 +179,15 @@ p.copyright {
 }
 
 .logo {
-    position:relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     margin-top:0%;
     display: block;
-    margin-left: 200%;
-    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 12em;
 }
 
 .order-button {
@@ -202,4 +207,13 @@ p.copyright {
     background-color: #2BA72B;
     border-bottom: 2px #0C9A0C solid;
     color: #FFF;
+}
+
+.navbar-nav li a {
+    color: #ECECEC !important;
+    /*color: #F1F1F1;*/
+}
+
+.navbar-brand {
+    color: #ECECEC !important;
 }
