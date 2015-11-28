@@ -56,9 +56,13 @@
                 <div class="intro-message">
                     <center>
                         <img src="<%= asset_path('img-capa.png') %>">
-                        <button type="submit" class="btn order-button" data-toggle="modal" data-target="#myModal">
-                            Faça seu Pedido!
-                        </button>
+                        <div style="display:inline-table">
+                            <%if user_signed_in? %>
+                                <a href="<%= url_for(pedidos_path) %>" class="btn order-button">Faça seu Pedido!</a>
+                            <% else %>
+                                <a href="<%= url_for(new_user_session_path) %>" class="btn order-button">Faça seu Pedido!</a>
+                            <% end %>
+                        </div>
                     </center>
                 </div>
             </div>
