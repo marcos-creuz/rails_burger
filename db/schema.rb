@@ -11,10 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151127192734) do
+ActiveRecord::Schema.define(version: 20151128190814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "price"
+    t.string   "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_products", force: :cascade do |t|
+    t.integer  "qt"
+    t.string   "additionals"
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "order_products", ["order_id"], name: "index_order_products_on_order_id", using: :btree
+  add_index "order_products", ["product_id"], name: "index_order_products_on_product_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal  "price"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.decimal  "price"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "", null: false
