@@ -11,7 +11,7 @@
               Pão:
               <% @breads.each_with_index do |bread, index| %>
                 <div style="margin-top: 5px">
-                  <input type="radio" class="custom" name="custom_bread" value="<%= bread.name %>" data-price="<%= bread.price %>" <%= if (index == 0) then checked="checked" end %> > <%= bread.name %>
+                  <input type="radio" class="custom" name="custom_bread" value="<%= bread.name %>" data-price="<%= bread.price %>" <%= if (index == 0) then checked="checked" end %> > <%= bread.name %> <span class="small-price">(R$<%= bread.price %>)</span>
                 </div>
               <% end %>
             </div>
@@ -20,7 +20,7 @@
               Hamburger:
               <% @meats.each do |meat| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= meat.name %>" data-price="<%= meat.price %>"> <%= meat.name %>
+                  <input type="checkbox" class="custom" value="<%= meat.name %>" data-price="<%= meat.price %>"> <%= meat.name %> <span class="small-price">(R$<%= meat.price %>)</span>
                 </div>
               <% end %>
             </div>
@@ -29,7 +29,7 @@
               Molhos:
               <% @sauces.each do |sauce| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= sauce.name %>" data-price="<%= sauce.price %>"> <%= sauce.name %>
+                  <input type="checkbox" class="custom" value="<%= sauce.name %>" data-price="<%= sauce.price %>"> <%= sauce.name %> <span class="small-price">(R$<%= sauce.price %>)</span>
                 </div>
               <% end %>
             </div>
@@ -38,7 +38,7 @@
               Saladas:
               <% @salads.each do |salad| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= salad.name %>" data-price="<%= salad.price %>"> <%= salad.name %>
+                  <input type="checkbox" class="custom" value="<%= salad.name %>" data-price="<%= salad.price %>"> <%= salad.name %> <span class="small-price">(R$<%= salad.price %>)</span>
                 </div>
               <% end %>
             </div>
@@ -48,11 +48,11 @@
               Outros:
               <% @miscs.each do |misc| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= misc.name %>" data-price="<%= misc.price %>"> <%= misc.name %>
+                  <input type="checkbox" class="custom" value="<%= misc.name %>" data-price="<%= misc.price %>"> <%= misc.name %> <span class="small-price">(R$<%= misc.price %>)</span>
                 </div>
               <% end %>
             </div>
-            <div id="custom_price" class="price">
+            <div id="custom_price" class="price" data-real-price="0">
               R$ 0
             </div>
           </div>
@@ -81,17 +81,27 @@
                   <%= render("cart_icon", name: burger.name) %>
                   <% @additionals.each do |additional| %>
                     <div style="margin-top: 5px">
-                      <input type="checkbox" class="<%= burger.name %> additional" value="<%= additional.name %>" data-price="<%= additional.price %>"> <%= additional.name %>
+                      <input type="checkbox" class="<%= burger.name %> additional" value="<%= additional.name %>" data-price="<%= additional.price %>"> <%= additional.name %> <span class="small-price">(R$ <%= additional.price %>)</span>
                     </div>
                   <% end %>
                 </div>
-                <div class="price burger-price" data-price="<%= burger.price %>">
+                <div class="price burger-price" data-price="<%= burger.price %>" data-real-price="<%= burger.price %>">
                   R$ <%= burger.price %>
                 </div>
               </div>
             </div>
           </div>
         <% end %>
+
+        <div style="text-align: right; margin-right: 10%">
+          <div class="total-price">
+            Valor Total: R$ <span id="total_price"></span>
+          </div>
+
+          <button class="btn btn-primary" style="margin-top: 10px;">
+            Finalizar Pedido
+          </button>
+        </div>
 
       </div>
     </div>
@@ -106,6 +116,8 @@
       price += parseFloat($(this).data("price"));
     });
     $("#custom_price").text("R$ "+price);
+    $("#custom_price").data("real-price", price);
+    updateTotalPrice();
 
     $(".additional").prop( "checked", false );
   });
@@ -116,6 +128,8 @@
       price += parseFloat($(this).data("price"));
     });
     $("#custom_price").text("R$ "+price);
+    $("#custom_price").data("real-price", price);
+    updateTotalPrice();
   });
 
   $(".additional").click(function() {
@@ -133,8 +147,24 @@
       price += parseFloat($(this).data("price"));
     });
     var price_div = $(this).closest(".burger-col").next();
-    price_div.html("R$ " + (parseFloat(price_div.data("price")) + price));
+    var original_price = parseFloat(price_div.data("price"));
+    price_div.html("R$ " + (original_price + price));
+    price_div.data("real-price",original_price + price);
+    updateTotalPrice();
   });
+
+  $(".qt").change(function() {
+    updateTotalPrice();
+  });
+
+  function updateTotalPrice() {
+    var total = 0;
+    $(".price").each(function() {
+      var qt = parseInt($(this).prev().find(".qt").val());
+      total += parseFloat($(this).data("real-price")) * qt;
+    })
+    $("#total_price").text(total);
+  }
 
 
 </script>

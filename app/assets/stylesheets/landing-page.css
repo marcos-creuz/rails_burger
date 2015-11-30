@@ -349,3 +349,13 @@ p.copyright {
   margin-left: 890px;
   margin-top: 160px;
 }
+
+.total-price {
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+.small-price {
+  font-size: 10px;
+  color: #888;
+}
