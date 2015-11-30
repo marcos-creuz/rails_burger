@@ -9,9 +9,9 @@
             <div class="col-md-2 burger-col">
               <br>
               Pão:
-              <% @breads.each do |bread| %>
+              <% @breads.each_with_index do |bread, index| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= bread.name %>"> <%= bread.name %>
+                  <input type="radio" class="custom" name="custom_bread" value="<%= bread.name %>" data-price="<%= bread.price %>" <%= if (index == 0) then checked="checked" end %> > <%= bread.name %>
                 </div>
               <% end %>
             </div>
@@ -20,7 +20,7 @@
               Hamburger:
               <% @meats.each do |meat| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= meat.name %>"> <%= meat.name %>
+                  <input type="checkbox" class="custom" value="<%= meat.name %>" data-price="<%= meat.price %>"> <%= meat.name %>
                 </div>
               <% end %>
             </div>
@@ -29,7 +29,7 @@
               Molhos:
               <% @sauces.each do |sauce| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= sauce.name %>"> <%= sauce.name %>
+                  <input type="checkbox" class="custom" value="<%= sauce.name %>" data-price="<%= sauce.price %>"> <%= sauce.name %>
                 </div>
               <% end %>
             </div>
@@ -38,7 +38,7 @@
               Saladas:
               <% @salads.each do |salad| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= salad.name %>"> <%= salad.name %>
+                  <input type="checkbox" class="custom" value="<%= salad.name %>" data-price="<%= salad.price %>"> <%= salad.name %>
                 </div>
               <% end %>
             </div>
@@ -48,9 +48,12 @@
               Outros:
               <% @miscs.each do |misc| %>
                 <div style="margin-top: 5px">
-                  <input type="checkbox" class="custom" value="<%= misc.name %>"> <%= misc.name %>
+                  <input type="checkbox" class="custom" value="<%= misc.name %>" data-price="<%= misc.price %>"> <%= misc.name %>
                 </div>
               <% end %>
+            </div>
+            <div id="custom_price" class="price">
+              R$ 0
             </div>
           </div>
         </div>
@@ -78,9 +81,12 @@
                   <%= render("cart_icon", name: burger.name) %>
                   <% @additionals.each do |additional| %>
                     <div style="margin-top: 5px">
-                      <input type="checkbox" class="<%= burger.name %>" value="<%= additional.name %>"> <%= additional.name %>
+                      <input type="checkbox" class="<%= burger.name %> additional" value="<%= additional.name %>" data-price="<%= additional.price %>"> <%= additional.name %>
                     </div>
                   <% end %>
+                </div>
+                <div class="price burger-price" data-price="<%= burger.price %>">
+                  R$ <%= burger.price %>
                 </div>
               </div>
             </div>
@@ -91,3 +97,44 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+
+  $(function() {
+    var price = 0;
+    $(".custom:checked").each(function(){
+      price += parseFloat($(this).data("price"));
+    });
+    $("#custom_price").text("R$ "+price);
+
+    $(".additional").prop( "checked", false );
+  });
+
+  $(".custom").click(function(){
+    var price = 0;
+    $(".custom:checked").each(function(){
+      price += parseFloat($(this).data("price"));
+    });
+    $("#custom_price").text("R$ "+price);
+  });
+
+  $(".additional").click(function() {
+    var price;
+    if($(this).is(":checked"))
+    {
+      price = parseFloat($(this).data("price"));
+    }
+    else
+    {
+      price = 0;
+    }
+
+    $(this).parent().siblings().children("input:checked").each(function(){
+      price += parseFloat($(this).data("price"));
+    });
+    var price_div = $(this).closest(".burger-col").next();
+    price_div.html("R$ " + (parseFloat(price_div.data("price")) + price));
+  });
+
+
+</script>
