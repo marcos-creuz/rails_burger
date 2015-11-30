@@ -13,14 +13,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <a href="#about">Contato</a>
+                        <%= link_to 'Contato', contato_path %>
                     </li>
                     <li>
-                        <a href="#services">Sobre</a>
+                        <%= link_to 'Sobre', sobre_path %>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <% if user_signed_in? %>
+                        <% if current_user.admin? %>
+                          <li>
+                              <%= link_to 'Novo produto', new_product_path %>
+                          </li>
+                          <li>
+                              <%= link_to 'Novo ingrediente', new_ingredient_path %>
+                          </li>
+                        <% end %>
                         <li>
                             <%= link_to 'Perfil', url_for(:edit_user_registration) %>
                         </li>

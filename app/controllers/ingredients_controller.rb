@@ -7,6 +7,7 @@ class IngredientsController < ApplicationController
   end
 
   def create
+    return unless current_user.admin?
     ing = Ingredient.create(permitted_params)
     redirect_to :back, success: "Ingrediente cadastrado com sucesso!"
   end

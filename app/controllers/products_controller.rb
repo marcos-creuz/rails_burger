@@ -7,6 +7,7 @@ class ProductsController < ApplicationController
   end
 
   def create
+    return unless current_user.admin?
     prod = Product.new(permitted_params)
     prod.image = save_image_and_return_path
 

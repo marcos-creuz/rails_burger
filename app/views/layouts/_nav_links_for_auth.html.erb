@@ -1,7 +1,23 @@
 <% if user_signed_in? %>
-  <li><%= link_to 'Perfil', edit_user_registration_path %></li>
-  <li><%= link_to 'Sair', destroy_user_session_path, :method=>'delete' %></li>
+    <% if current_user.admin? %>
+      <li>
+          <%= link_to 'Novo produto', new_product_path %>
+      </li>
+      <li>
+          <%= link_to 'Novo ingrediente', new_ingredient_path %>
+      </li>
+    <% end %>
+    <li>
+        <%= link_to 'Perfil', url_for(:edit_user_registration) %>
+    </li>
+    <li>
+        <%= link_to 'Sair', destroy_user_session_path, :method=>'delete' %>
+    </li>
 <% else %>
-  <li><%= link_to 'Entrar', new_user_session_path %></li>
-  <li><%= link_to 'Cadastro', new_user_registration_path %></li>
+    <li>
+        <%= link_to "Cadastro", url_for(:new_user_registration) %>
+    </li>
+    <li>
+        <%= link_to "Entrar", url_for(:new_user_session) %>
+    </li>
 <% end %>
