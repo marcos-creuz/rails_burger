@@ -3,7 +3,60 @@
     <div class="col-lg-12">
       <div class="intro-message">
 
+        <%= render('ribbon', text: "Monte Seu Burger") %>
+        <div class="centered">
+          <div class="row row-eq-height white-panel">
+            <div class="col-md-2 burger-col">
+              <br>
+              Pão:
+              <% @breads.each do |bread| %>
+                <div style="margin-top: 5px">
+                  <input type="checkbox" class="custom" value="<%= bread.name %>"> <%= bread.name %>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-3 burger-col" style="border: solid 1px black; height: 100%;">
+              <br>
+              Hamburger:
+              <% @meats.each do |meat| %>
+                <div style="margin-top: 5px">
+                  <input type="checkbox" class="custom" value="<%= meat.name %>"> <%= meat.name %>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-2 burger-col" style="border: solid 1px black; height: 100%;">
+              <br>
+              Molhos:
+              <% @sauces.each do |sauce| %>
+                <div style="margin-top: 5px">
+                  <input type="checkbox" class="custom" value="<%= sauce.name %>"> <%= sauce.name %>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-2 burger-col" style="border: solid 1px black; height: 100%;">
+              <br>
+              Saladas:
+              <% @salads.each do |salad| %>
+                <div style="margin-top: 5px">
+                  <input type="checkbox" class="custom" value="<%= salad.name %>"> <%= salad.name %>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-3 burger-col" style="border: solid 1px black; height: 100%;">
+              <br>
+              <%= render("cart_icon", name: "custom") %>
+              Outros:
+              <% @miscs.each do |misc| %>
+                <div style="margin-top: 5px">
+                  <input type="checkbox" class="custom" value="<%= misc.name %>"> <%= misc.name %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
         <% @burgers.each do |burger| %>
+          <%= render('ribbon', text: burger.name) %>
           <div>
             <div class="centered">
               <div class="row row-eq-height white-panel">
@@ -22,6 +75,7 @@
                 <div class="col-md-5 burger-col" style="border: solid 1px black; height: 100%;">
                   <br>
                   Adicionais:
+                  <%= render("cart_icon", name: burger.name) %>
                   <% @additionals.each do |additional| %>
                     <div style="margin-top: 5px">
                       <input type="checkbox" class="<%= burger.name %>" value="<%= additional.name %>"> <%= additional.name %>
